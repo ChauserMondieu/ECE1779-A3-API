@@ -1,0 +1,61 @@
+zappa installation and configuration
+########################################################################
+step 1 prepare for the virtual environment
+% cd venv/Scripts
+% activate
+% pip install zappa
+% pip install --upgrade awscli
+% zappa init
+step2 find the zappa_setting.json
+# change the following content
+{
+    "dev": {
+        "app_function": "FaceDection.__name__",
+        "aws_region": "us-east-1",
+        "profile_name": "default",
+        "project_name": "scripts",
+        "runtime": "python3.7",
+        "s3_bucket": "zappabuckets2",
+        "manage_roles":false,
+        "role_name":"rambda-executes",
+        "role_arn":"arn:aws:iam::933284601754:role/rambda-executes",
+        "extra_permissions":[{
+	"Effect":"Allow",
+	"Action":["rekognition:*","s3:*"],
+	"Resource":"*"
+        }]
+    }
+}
+
+step3 zappa deploy "name"
+###########################################################
+% cd 
+% python -m venv venv
+% venv\scripts\activate
+(venv)% pip install flask
+(venv)% pip install boto3
+(venv)% pip install aws-shell
+(venv)% aws configure
+(venv)% pip install zappa
+(venv)% zappa deploy dev
+####################################################
+.json file modify the S3 bucket name
+###################################################
+{
+    "dev": {
+        "app_function": "run",
+        "aws_region": "us-east-1",
+        "profile_name": "default",
+        "project_name": "zp",
+        "runtime": "python3.7",
+        "s3_bucket": "zappadeploys",
+        "manage_roles": false,
+        "role_name": "rambda-2",
+        "role_arn": "arn:aws:iam::038874261124:role/rambda-2",
+        "extra_permissions": [{
+	"Effect": "Allow",
+	"Action": ["rekognition:*", "s3:*"],
+	"Resource":"*"
+        }]
+    }
+}
